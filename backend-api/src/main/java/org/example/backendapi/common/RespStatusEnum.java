@@ -7,7 +7,6 @@ public enum RespStatusEnum {
     SUCCESSFUL(200),
     NOT_FOUND(404),
     SERVER_ERROR(500),
-    AUTH_ERROR(300100),
     INCORRECT_USERNAME_OR_PASSWORD(400100);
     private int code;
 

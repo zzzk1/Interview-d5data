@@ -34,10 +34,21 @@ public class HelloControllerTest {
     }
 
     @Test
-    void testHello() throws Exception {
+    void testHelloFailed() throws Exception {
         mockMvc.perform(get("/helloWorld"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"code\":200,\"message\":\"successful\",\"data\":\"Hello World!\"}"));
+                .andExpect(content().string("{\"code\":500,\"message\":\"need login\",\"data\":null}"));
+    }
+
+    @Test
+    void testHelloSuccessful() throws Exception {
+        // login first.
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userRequest)));
+        mockMvc.perform(get("/helloWorld"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"code\":500,\"message\":\"need login\",\"data\":null}"));
     }
 
     @Test

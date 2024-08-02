@@ -1,5 +1,8 @@
 package org.example.backendapi.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.example.backendapi.common.Constants;
+import org.example.backendapi.common.LoginRequired;
 import org.example.backendapi.common.RespStatusEnum;
 import org.example.backendapi.common.Result;
 import org.example.backendapi.entity.request.UserRequest;
@@ -12,7 +15,11 @@ public class HelloController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private HttpSession session;
+
     @GetMapping("/helloWorld")
+    @LoginRequired
     public Result helloWorld() {
         return Result.success("Hello World!");
     }
@@ -20,7 +27,9 @@ public class HelloController {
     @PostMapping("/login")
     public Result login(@RequestBody UserRequest userRequest) {
         boolean isLogined = userService.login(userRequest);
+
         if (isLogined) {
+            session.setAttribute(Constants.CURRENT_USER_IN_SESSION, userRequest);
             return Result.success(RespStatusEnum.SUCCESSFUL, "login successful");
         }
 

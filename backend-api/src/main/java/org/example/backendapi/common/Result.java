@@ -29,4 +29,8 @@ public class Result<T> {
     public static<T> Result<T> fail(RespStatusEnum status, String message) {
         return new Result<>(status, message, null);
     }
+
+    public static<T> Result<T> fail(String message) {
+        return new Result<>(RespStatusEnum.SERVER_ERROR, message, null);
+    }
 }
